@@ -54,7 +54,7 @@ With climate change worsening, individuals need tools to understand and reduce t
 
 1. Clone repository
 bash
-git clone https://github.com/2024bhoomisingh/Carbon-emission-tracker.git
+git clone https://github.com/bhoomisingh00079/Carbon-emission-tracker.git
 cd Carbon-emission-tracker
 
 2. Install dependencies
