@@ -1,88 +1,197 @@
-# 🌍 Carbon Emission Tracker
 
-A **web-based carbon emission tracker** built to help users measure and monitor their personal carbon footprints from daily activities, visualize progress, and gain actionable tips to reduce emissions.
 
-This project was built as a **hackathon MVP** using React, Firebase Auth, Firestore (future), and backend services — focused on rapid prototyping and real-world usability.
+```md
+# 🚀 Project Name
 
----
-
-## 📌 Problem Statement
-
-With climate change worsening, individuals need tools to understand and reduce their environmental impact. This platform enables users to:
-
-- Log daily activity details (transport, electricity, food)
-- Calculate carbon emissions from each activity
-- Visualize emission breakdowns with interactive charts
-- Track progress over time (daily, weekly, monthly)
-- Get recommendations to reduce footprint
-- Manage profiles and sessions via authentication
+A full-stack web application built using modern web technologies with Firebase as the backend service for authentication, database, and storage.
 
 ---
 
-## 🧠 Key Features
+## 📌 Project Status
 
-### ✅ Authentication
-- Login & logout powered by **Firebase Auth**
-- User profile page showing email and session management
-
-### 📊 Emission Tracking
-- Users input daily activities:
-  - Transport (km)
-  - Electricity usage (kWh)
-  - Food type (veg/non-veg)
-- Emission estimates computed using standard emission coefficients
-
-### 📈 Interactive Analytics
-- Dashboard with pie charts for emission breakdown
-- Analytics page showing emission trends over time
-- History tracking enabling weekly/monthly aggregation (with Firestore backend)
-
-### 🛠 Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React + Vite |
-| UI Visualization | Chart.js + react-chartjs-2 |
-| Routing | react-router-dom |
-| Auth | Firebase Authentication |
-| Backend API | Node.js + Express (future) |
-| Database | Firestore (future per-user storage) |
+🟡 **Under Development**  
+The project is currently running locally. Deployment will be added after testing and final optimization.
 
 ---
 
-## 📦 Getting Started (Frontend)
+## 🛠️ Tech Stack
 
-1. Clone repository
-bash
-git clone https://github.com/bhoomisingh00079/Carbon-emission-tracker.git
-cd Carbon-emission-tracker
+### Frontend
+- React.js
+- HTML5
+- CSS3
+- JavaScript
 
-2. Install dependencies
+### Backend / Services
+- Firebase Authentication
+- Firebase Firestore (Database)
+- Firebase Storage (if used)
 
-Copy code
-bash
+### Tools & Version Control
+- Git
+- GitHub
+- npm
+
+---
+
+## 📂 Project Structure
+
+```
+
+project-root/
+│
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── firebase.js        # Firebase configuration
+│   ├── App.js
+│   └── index.js
+│
+├── public/
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
+
+````
+
+---
+
+## ⚙️ Installation & Local Setup
+
+### Prerequisites
+- Node.js
+- npm
+- Firebase account
+
+---
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+````
+
+---
+
+### 2️⃣ Install Dependencies
+
+```bash
 npm install
-3. Start development server
-Copy code
-Bash
-npm run dev
-4. Visit in browser
-Open at: http://localhost:5173/
+```
 
-🧪 Usage
-Register / Login using Firebase credentials
-Navigate dashboard to input daily activities
-View breakdown charts and analytics
-Go to Profile to view user email and logout
+---
 
-## 🔮 Future Scope
+### 3️⃣ Firebase Configuration
 
-- **AI-Powered Recommendation Chatbot**  
-  A conversational chatbot can be integrated into the Recommendations page to analyze user activity data and provide personalized, interactive suggestions for reducing carbon emissions.
+1. Create a Firebase project
 
-- **UI / UX Enhancements**  
-  The user interface can be further improved with a modern, responsive design, better visual hierarchy, and accessibility-focused enhancements to improve overall user experience.
+2. Enable required services:
 
-- **Location-Based Alerts & Reminders**  
-  Location-aware features can be added to send smart reminders, emission alerts, and eco-friendly transport suggestions based on user movement and regional context.
+   * Authentication
+   * Firestore Database
+   * Storage (optional)
+
+3. Create a `.env` file in the root directory:
+
+```env
+REACT_APP_FIREBASE_API_KEY=your_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+```
+
+4. Firebase setup file (`firebase.js`):
+
+```js
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
+
+export const app = initializeApp(firebaseConfig);
+```
+
+---
+
+### 4️⃣ Run the Application
+
+```bash
+npm start
+```
+
+The app will run at:
+
+```
+http://localhost:3000
+```
+
+---
+
+## 🔄 Application Flow
+
+1. User interacts with the React frontend
+2. Firebase Authentication handles login/signup
+3. Firestore stores and retrieves application data
+4. UI updates in real time based on Firebase responses
+
+---
+
+## 🧪 Current Features
+
+* Firebase Authentication
+* Firestore database integration
+* React-based UI
+* Environment variable security
+* Local development setup
+
+---
+
+## 🚧 Planned Enhancements
+
+* Deployment (Firebase Hosting / Vercel)
+* Role-based authentication
+* Improved UI/UX
+* Firestore security rules
+* Performance optimization
+
+---
+
+## ⚠️ Important Notes
+
+* `.env` file is excluded from version control
+* Firebase credentials should never be pushed to GitHub
+* Ensure Firebase rules are properly configured before deployment
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+Fork the repository and submit a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👤 Author
+
+**Bhoomi Singh**
+Software Engineering Student
+GitHub: [https://github.com/bhoomisingh00079](https://github.com/bhoomisingh00079)
+
+```
+
 
