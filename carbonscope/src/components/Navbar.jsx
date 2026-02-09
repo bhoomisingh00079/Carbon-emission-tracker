@@ -1,47 +1,47 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 function Navbar() {
   return (
-    <nav style={nav}>
-      <h3 style={logo}>CarbonScope</h3>
+    <nav className="fixed top-0 left-0 right-0 z-50
+                    bg-gray-950 border-b border-gray-800">
+      <div className="max-w-7xl mx-auto px-6 h-16
+                      flex items-center justify-between">
 
-      <div style={links}>
-        <Link style={link} to="/dashboard">Dashboard</Link>
-        <Link style={link} to="/input">Input</Link>
-        <Link style={link} to="/analytics">Analytics</Link>
-        <Link style={link} to="/recommendations">Recommendations</Link>
-        <Link style={link} to="/profile">Profile</Link>
+        {/* Logo + Brand */}
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="CarbonScope logo" className="w-7 h-7" />
+          <span className="text-lg font-semibold text-white">
+            CarbonScope
+          </span>
+        </div>
+
+        {/* Links */}
+        <div className="flex gap-6 text-sm font-medium">
+          {[
+            ["Dashboard", "/dashboard"],
+            ["Input", "/input"],
+            ["Analytics", "/analytics"],
+            ["Tips", "/recommendations"],
+            ["Chatbot", "/chat"],
+            ["Profile", "/profile"],
+          ].map(([label, path]) => (
+            <NavLink
+              key={path}
+              to={path}
+              className={({ isActive }) =>
+                isActive
+                  ? "text-green-400"
+                  : "text-gray-400 hover:text-white"
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </div>
       </div>
     </nav>
   );
 }
-
-/* ---------- Styles ---------- */
-
-const nav = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "14px 32px",
-  background: "#ffffff",
-  borderBottom: "1px solid #e5e7eb"
-};
-
-const logo = {
-  margin: 0,
-  fontWeight: 600
-};
-
-const links = {
-  display: "flex",
-  gap: "20px"
-};
-
-const link = {
-  textDecoration: "none",
-  color: "#374151",
-  fontSize: "14px",
-  fontWeight: 500
-};
 
 export default Navbar;

@@ -2,68 +2,91 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { Link } from "react-router-dom";
+
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     setError("");
+    setLoading(true);
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: "360px", margin: "80px auto" }}>
-      <h1>CarbonScope</h1>
-      <p style={{ color: "#6b7280" }}>Carbon footprint tracker</p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm bg-white rounded-xl shadow-md p-6">
+        {/* Branding */}
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-semibold text-green-700">
+            CarbonScope
+          </h1>
+          <p className="text-sm text-gray-500">
+            Track and reduce your carbon footprint
+          </p>
+        </div>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={input}
-      />
+        {/* Form */}
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm
+                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          />
 
-      <input
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={input}
-      />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm
+                       focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+          />
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* Error */}
+          {error && (
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              {error}
+            </p>
+          )}
 
-      <button onClick={handleLogin} style={button}>
-        Continue
-      </button>
+          {/* Button */}
+          <button
+            onClick={handleLogin}
+            disabled={loading}
+            className="w-full bg-green-600 hover:bg-green-700
+                       text-white text-sm font-medium py-2.5 rounded-md
+                       transition disabled:opacity-50"
+          >
+            {loading ? "Signing in..." : "Continue"}
+          </button>
+          <p className="text-sm text-gray-400 mt-5 text-center">
+            Don’t have an account?{" "}
+            <Link to="/signup" className="text-green-500 hover:underline">
+              Sign up
+            </Link>
+          </p>
+
+        </div>
+      </div>
     </div>
   );
 }
-
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "12px",
-  border: "1px solid #d1d5db",
-  borderRadius: "4px"
-};
-
-const button = {
-  width: "100%",
-  padding: "10px",
-  background: "#111827",
-  color: "white",
-  border: "none",
-  borderRadius: "4px",
-  cursor: "pointer"
-};
 
 export default Login;

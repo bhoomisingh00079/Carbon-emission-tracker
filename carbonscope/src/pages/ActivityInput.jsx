@@ -3,111 +3,174 @@ import { ActivityContext } from "../context/ActivityContext";
 
 function ActivityInput() {
   const { saveActivity } = useContext(ActivityContext);
-  const [transport, setTransport] = useState("");
-  const [electricity, setElectricity] = useState("");
+
+  const [transport, setTransport] = useState(0);
+  const [electricity, setElectricity] = useState(0);
   const [food, setFood] = useState("veg");
+  const [mood, setMood] = useState("normal");
+
+  // live calculation
+  const transportEmission = transport * 0.21;
+  const electricityEmission = electricity * 0.82;
+  const foodEmission = food === "non-veg" ? 3 : 1.5;
+  const total = transportEmission + electricityEmission + foodEmission;
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     saveActivity({
-      transportKm: Number(transport),
-      electricityKwh: Number(electricity),
-      foodType: food
+      transportKm: transport,
+      electricityKwh: electricity,
+      foodType: food,
+      mood,
     });
 
-    alert("Activity saved for today");
+    setTransport(0);
+    setElectricity(0);
+    setFood("veg");
+    setMood("normal");
   };
 
   return (
-    <div style={container}>
-      <h2>Daily Activity Input</h2>
-      <p style={subtitle}>
-        Enter your daily activities to calculate today’s carbon footprint
-      </p>
+    <div className="max-w-5xl mx-auto space-y-8">
 
-      <form onSubmit={handleSubmit} style={form}>
-        <label style={label}>Transport (km)</label>
-        <input
-          type="number"
-          placeholder="e.g. 10"
-          value={transport}
-          onChange={(e) => setTransport(e.target.value)}
-          style={input}
-        />
+      {/* HEADER */}
+      <div>
+        <h2 className="text-2xl font-semibold text-white">
+          Daily Activity
+        </h2>
+        <p className="text-gray-400">
+          Log today’s activities and see your carbon impact instantly
+        </p>
+      </div>
 
-        <label style={label}>Electricity Usage (kWh)</label>
-        <input
-          type="number"
-          placeholder="e.g. 5"
-          value={electricity}
-          onChange={(e) => setElectricity(e.target.value)}
-          style={input}
-        />
+      {/* LIVE PREVIEW */}
+      <div className="bg-green-600/10 border border-green-600/30 rounded-xl p-6">
+        <p className="text-sm text-green-400 mb-1">Estimated emissions</p>
+        <p className="text-3xl font-bold text-green-500">
+          {total.toFixed(2)} kg CO₂
+        </p>
+      </div>
 
-        <label style={label}>Food Preference</label>
-        <select
-          value={food}
-          onChange={(e) => setFood(e.target.value)}
-          style={input}
-        >
-          <option value="veg">Vegetarian</option>
-          <option value="non-veg">Non-Vegetarian</option>
-        </select>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        <button type="submit" style={button}>
-          Save Activity
-        </button>
+        {/* LEFT */}
+        <div className="space-y-5">
+
+          {/* Transport */}
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">
+              Transport Distance (km)
+            </label>
+            <input
+              type="number"
+              value={transport}
+              onChange={(e) => setTransport(Number(e.target.value))}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              🚶 Walking saves ~2kg CO₂ per 10km
+            </p>
+          </div>
+
+          {/* Electricity */}
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">
+              Electricity Usage (kWh)
+            </label>
+            <input
+              type="number"
+              value={electricity}
+              onChange={(e) => setElectricity(Number(e.target.value))}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
+          {/* Food */}
+          <div>
+            <label className="block text-sm text-gray-400 mb-1">
+              Food Preference
+            </label>
+            <select
+              value={food}
+              onChange={(e) => setFood(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="veg">Vegetarian 🌱</option>
+              <option value="non-veg">Non-Vegetarian 🍗</option>
+            </select>
+          </div>
+        </div>
+
+        {/* RIGHT */}
+        <div className="space-y-5">
+
+          {/* PRESETS */}
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+            <p className="text-sm text-gray-400 mb-3">Quick presets</p>
+            <div className="flex gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() => {
+                  setTransport(0);
+                  setElectricity(4);
+                }}
+                className="px-4 py-2 bg-gray-800 rounded-md text-sm hover:bg-gray-700"
+              >
+                🏠 Work from home
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTransport(8);
+                  setElectricity(3);
+                }}
+                className="px-4 py-2 bg-gray-800 rounded-md text-sm hover:bg-gray-700"
+              >
+                🚗 Short commute
+              </button>
+            </div>
+          </div>
+
+          {/* MOOD */}
+          <div>
+            <p className="text-sm text-gray-400 mb-2">
+              How was today?
+            </p>
+            <div className="flex gap-3">
+              {["easy", "normal", "hard"].map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMood(m)}
+                  className={`px-4 py-2 rounded-md text-sm
+                    ${mood === m
+                      ? "bg-green-600 text-white"
+                      : "bg-gray-800 text-gray-300"}`}
+                >
+                  {m === "easy" && "😌 Easy"}
+                  {m === "normal" && "🙂 Normal"}
+                  {m === "hard" && "😓 Hard"}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-green-600 hover:bg-green-700
+                       text-white font-semibold py-3 rounded-lg transition"
+          >
+            Save Activity
+          </button>
+        </div>
       </form>
     </div>
   );
 }
-
-/* ---------- Styles ---------- */
-
-const container = {
-  maxWidth: "420px",
-  margin: "40px auto",
-  background: "#ffffff",
-  padding: "24px",
-  borderRadius: "12px",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
-};
-
-const subtitle = {
-  marginBottom: "20px",
-  color: "#6b7280",
-  fontSize: "14px"
-};
-
-const form = {
-  display: "flex",
-  flexDirection: "column"
-};
-
-const label = {
-  fontSize: "14px",
-  marginBottom: "6px",
-  color: "#374151"
-};
-
-const input = {
-  padding: "10px",
-  marginBottom: "16px",
-  border: "1px solid #d1d5db",
-  borderRadius: "6px",
-  fontSize: "14px"
-};
-
-const button = {
-  padding: "10px",
-  background: "#2563eb",
-  color: "#ffffff",
-  border: "none",
-  borderRadius: "6px",
-  fontSize: "14px",
-  fontWeight: 500,
-  cursor: "pointer"
-};
 
 export default ActivityInput;
